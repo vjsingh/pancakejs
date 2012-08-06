@@ -1,3 +1,0 @@
-[submodule "src/js"]
-	path = src/js
-	url = git@github.com:vjsingh/backbone-boilerplate.git

@@ -12,14 +12,12 @@ Note:If you ever get a 'module \<module\> not found' error, just run npm install
 
 ## Developing
 To run the local server, just run ./runServer.
-Then, simply run ./watchFiles in a separate terminal, and all source files will be compiled as you save them! 
+Then, simply run 'cake watch' in a separate terminal, and all source files will be compiled as you save them! 
 
-Notes:
+* If a file is not being changed, you must first run the watch command and then save the file
+* The watch script occasionally runs into errors. If it does, just run it again
 
-* If a file is not being changed, you must first run ./watchFiles and then save the file
-* The script occasionally runs into errors. If it does, just run it again
-
-Less files should be automatically updated in the browser (if not, let me know).
+Less files should be automatically updated in the browser 
 
 ## Project filetree
 src has all of our src code. Its split up into js (coffeescript), css (less), and views (jade).  
