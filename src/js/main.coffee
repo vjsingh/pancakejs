@@ -1,6 +1,9 @@
 # Entry point into the application (when the application 'starts')
 # Initialize stuff, including Backbone history and hijacking links
-require [ 'app', 'router', 'backbone', 'models/User'], (app, Router, Backbone) ->
+require [ 'app', 'router', 'backbone'], (app, Router, Backbone) ->
+    # Make app globally available for debugging
+    window.app = app;
+
     # Define your master router on the application namespace and trigger all
     # navigation from this instance.
     app.router = new Router()

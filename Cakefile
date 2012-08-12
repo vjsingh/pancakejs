@@ -2,8 +2,8 @@
 watch         = require 'nodewatch'
 path          = require 'path'
 
-task 'jade:compile', 'compile jade templates from /src/views to /tmp/templates', ->
-  exec 'jade src/views/ --out tmp/templates/', (err, stdout, stderr) ->
+task 'jade:compile', 'compile jade templates from /src/templates to /tmp/templates', ->
+  exec 'jade src/templates/ --out tmp/templates/', (err, stdout, stderr) ->
     err && throw err
     console.log 'Jade templates compiled!'
     invoke 'underscore:renameTemplates'
@@ -25,7 +25,7 @@ task 'less:compile', 'Compiles less files', ->
     console.log 'less compiled!'
 
 task 'coffee:compile', 'Compiles coffee files', ->
-  exec 'coffee --output static/js/ --compile src/js/', (err, stdout, stderr) ->
+  exec 'coffee --output public/js/ --compile src/js/', (err, stdout, stderr) ->
     err && throw err
     console.log 'coffee compiled!'
 
@@ -36,17 +36,17 @@ task 'watch', 'watches for changes in source files', ->
   # Compile all on startup
   console.log("compiling...");
   invoke 'jade:compile'
-  invoke 'less:copyLess'
+  #invoke 'less:copyLess'
   invoke 'coffee:compile'
 
   console.log("Watching files")
-  watch.add("./app", true).onChange((file,prev,curr,action) ->
+  watch.add("./src/", true).onChange((file,prev,curr,action) ->
     console.log(file)
     ext = path.extname(file).substr(1)
     if ext == 'jade'
       invoke 'jade:compile'
     else if ext == 'less'
-      invoke 'less:compile'
+      #invoke 'less:compile'
     else if ext == 'coffee'
       invoke 'coffee:compile'
   )

@@ -17,9 +17,9 @@ require.config({
         jquery: "libs/jquery"
         underscore: "libs/underscore"
         backbone: "libs/backbone"
-        backboneValidation: "libs/backbone.validation"
+        #backboneValidation: "libs/backbone.validation"
         jqueryCookie: "libs/jquery.cookie"
-        jqueryUniqueElementId: "libs/jquery.unique-element-id"
+        #jqueryUniqueElementId: "libs/jquery.unique-element-id"
         handlebars: "libs/handlebars-1.0.0.beta.6"
 
     # Use this for 3rd party libs that aren't AMD (requirejs) compatible
@@ -37,7 +37,7 @@ require.config({
           deps: [ "underscore", "jquery" ]
           exports: "Backbone"
 
-        backboneValidation:
-          deps: [ "underscore", "backbone" ]
+        #backboneValidation:
+          #deps: [ "underscore", "backbone" ]
 })
 

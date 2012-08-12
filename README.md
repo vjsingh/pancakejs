@@ -20,6 +20,7 @@ Then, simply run 'cake watch' in a separate terminal, and all source files will 
 Less files should be automatically updated in the browser 
 
 ## Project filetree
+** Note: Now just editing less right from public/css so we don't have to compile every time
 src has all of our src code. Its split up into js (coffeescript), css (less), and views (jade).  
 |-src  
 |---css  

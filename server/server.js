@@ -16,10 +16,6 @@ var express = require('express'),
   fs = require('fs'),
   path = require('path'),
   crypto = require('crypto'),
-  mime = require('mime-magic'),
-  awssum = require('awssum'),
-  amazon = awssum.load('amazon/amazon'),
-  S3 = awssum.load('amazon/s3').S3,
   db,
   Artwork, User, LoginToken, Bounty;
   //routes = require('./routes')
@@ -34,21 +30,15 @@ var IS_LOCAL_MACHINE = siteConf.isLocal;
 
 app.configure(function(){
   app.set('db-uri', 'TODO:db-uri' + siteConf.dbName);
-  //app.set('views', PUBLIC_FILE_LOC + '/views/');
-  //app.set('view engine', 'jade');
+  app.set('views', '../src/views/');
+  app.set('view engine', 'jade');
   // set pretty to false for editable fields in transcriptionDisplay
   // Extra whitespace added when editing AARGHHH
   //app.set('view options', {pretty: false});
   app.set('view options', {layout: false});
-  app.register('.html', {
-    compile: function(str, options){
-      return function(locals){
-        return str;
-      };
-    }
-  });
+  app.use(express.static(__dirname + '/../public'));
 
-  app.use(express.bodyParser({uploadDir: fileUploadDir}));
+  app.use(express.bodyParser());
   app.use(expressValidator);
 
   app.use(express.cookieParser());
@@ -66,12 +56,8 @@ app.configure(function(){
   app.use(checkUser);
   app.use(app.router);
   // Default route is html/, explicitly specify all others
-  app.use('/css', express.static(PUBLIC_FILE_LOC + '/css'));
-  app.use('/js', express.static(PUBLIC_FILE_LOC + '/js'));
-  app.use('/assets', express.static(PUBLIC_FILE_LOC + '/css'));
-  app.use(express.static(PUBLIC_FILE_LOC + '/views/'));
   app.use(function(req, res, next) {
-    res.render('404.html', { status: 404, error: 'error descripotion' });
+    res.render('404', { status: 404, error: 'error description' });
   });
 
   app.dynamicHelpers({
@@ -88,9 +74,6 @@ app.configure(function(){
     cssScripts: function(req, res) {
       var scripts = [];
       return scripts;
-    },
-    isFirefox: function(req, res) {
-      return getIsFirefox(req);
     }
   });
   process.on('uncaughtException', function(err) {
@@ -123,16 +106,14 @@ app.error(function(err, req, res, next) {
   console.log("ZQX GOT ERROR, in app.error");
   console.log(err);
   console.log(err.stack);
-  res.render('500.jade', {
+  res.render('500', {
     error: err
   });
 });
 
 models.defineModels(mongoose, function() {
-    app.Artwork = Artwork = mongoose.model('Artwork');
     app.User = User = mongoose.model('User');
     app.LoginToken = LoginToken = mongoose.model('LoginToken');
-    app.Bounty = Bounty = mongoose.model('Bounty');
     db = mongoose.connect(app.set('db-uri'));
 });
 
@@ -220,6 +201,10 @@ app.listen(3000);
 //**********************************
 // Routes
 //**********************************
+app.get('/', function(req, res) {
+  console.log("IN INDEX");
+  res.render('index', {isDevelopment: true});
+});
 
 // Sessions
 app.get('/login', function(req, res) {
